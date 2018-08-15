@@ -1,0 +1,15 @@
+{
+    "name": "pyxis/composer",
+    "description": "",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Italo Brenner Lauriano de Oliveira",
+            "email": "italobrenner.mf@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "monolog/monolog":"1.0.*"
+    }
+}

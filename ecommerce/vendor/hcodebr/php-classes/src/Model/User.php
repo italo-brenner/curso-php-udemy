@@ -10,18 +10,6 @@ class User extends Model {
 	const SESSION = "User";
 	const SECRET = "HcodePhp7_Secret";
 
-	protected $fields = [
-		"iduser",
-		"idperson",
-		"desperson",
-		"deslogin",
-		"despassword",
-		"desemail",
-		"nrphone",
-		"inadmin",
-		"dtregister"
-	];
-
 	public static function login($login, $password):User
 	{
 

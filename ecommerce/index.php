@@ -5,6 +5,7 @@ require_once("vendor/autoload.php");
 use Hcode\Model\User;
 use Hcode\Model\Category;
 use Hcode\PageAdmin;
+use Hcode\Page;
 
 $app = new \Slim\Slim();
 
@@ -12,7 +13,7 @@ $app->config('debug', true);
 
 $app->get('/', function() {
     
-	$page = new Hcode\Page();
+	$page = new Page();
 
 	$page->setTpl("index");
 
@@ -215,7 +216,7 @@ $app->post("/admin/forgot/reset", function() {
 $app->get("/admin/categories/:idcategory/delete", function($idcategory) {
 
 	User::verifyLogin();
-	
+
 	$category = new Category();
 
 	$category->get((int) $idcategory);
@@ -295,6 +296,21 @@ $app->post("/admin/categories/:idcategoria", function($idcategory) {
 
 	header('Location: /admin/categories');
 	exit;
+
+});
+
+$app->get("/categories/:idcategoria", function($idcategory) {
+
+	$category = new Category();
+
+	$category->get((int) $idcategory);
+
+	$page = new Page();
+
+	$page->setTpl("category", [
+		"category"=>$category->getValues(),
+		"products"=>[]
+	]);
 
 });
 

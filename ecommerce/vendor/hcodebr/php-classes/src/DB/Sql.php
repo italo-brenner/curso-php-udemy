@@ -47,8 +47,10 @@ class Sql {
 
 		$this->setParams($stmt, $params);
 
-		$stmt->execute();
-
+		if ( ! $stmt->execute() ) {
+			print_r($stmt->errorInfo());
+		}
+		
 	}
 
 	public function select($rawQuery, $params = array()):array
@@ -58,7 +60,9 @@ class Sql {
 
 		$this->setParams($stmt, $params);
 
-		$stmt->execute();
+		if ( ! $stmt->execute() ) {
+			print_r($stmt->errorInfo());
+		}
 
 		return $stmt->fetchAll(\PDO::FETCH_ASSOC);
 

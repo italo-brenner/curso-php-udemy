@@ -49,6 +49,7 @@ class Sql {
 
 		if ( ! $stmt->execute() ) {
 			print_r($stmt->errorInfo());
+			exit;
 		}
 		
 	}
@@ -62,6 +63,7 @@ class Sql {
 
 		if ( ! $stmt->execute() ) {
 			print_r($stmt->errorInfo());
+			exit;
 		}
 
 		return $stmt->fetchAll(\PDO::FETCH_ASSOC);

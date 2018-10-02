@@ -125,6 +125,63 @@ class Order extends Model {
 	public static function clearSuccess()
 	{
 		$_SESSION[Order::SESSION_SUCCESS] = NULL;
+    }
+    
+    public static function getPage($page = 1, $itemsPerPage = 8)
+	{
+		$start = ($page - 1) * $itemsPerPage;
+		$sql = new Sql();
+
+		$results = $sql->select("
+			select sql_calc_found_rows *
+			from tb_orders a
+            inner join tb_ordersstatus b using(idstatus)
+            inner join tb_carts c using(idcart)
+            inner join tb_users d on d.iduser = a.iduser
+            inner join tb_addresses e using(idaddress)
+            inner join tb_persons f on f.idperson = d.idperson
+            order by a.dtregister desc
+			limit $start, $itemsPerPage
+		");
+
+		$resultTotal = $sql->select("select found_rows() as nrtotal");
+
+		return [
+			'data'=>$results,
+			'total'=>(int) $resultTotal[0]["nrtotal"],
+			'pages'=>ceil($resultTotal[0]["nrtotal"] / $itemsPerPage)
+		];
+	}
+
+	public static function getPageSearch($search, $page = 1, $itemsPerPage = 8)
+	{
+		$start = ($page - 1) * $itemsPerPage;
+		$sql = new Sql();
+
+		$results = $sql->select("
+			select sql_calc_found_rows *
+			from tb_orders a
+            inner join tb_ordersstatus b using(idstatus)
+            inner join tb_carts c using(idcart)
+            inner join tb_users d on d.iduser = a.iduser
+            inner join tb_addresses e using(idaddress)
+            inner join tb_persons f on f.idperson = d.idperson
+            where a.idorder = :id
+               or f.desperson like :search
+            order by a.dtregister desc
+			limit $start, $itemsPerPage
+		", [
+            'id'=>$search,
+			':search'=>'%'.$search.'%'
+		]);
+
+		$resultTotal = $sql->select("select found_rows() as nrtotal");
+
+		return [
+			'data'=>$results,
+			'total'=>(int) $resultTotal[0]["nrtotal"],
+			'pages'=>ceil($resultTotal[0]["nrtotal"] / $itemsPerPage)
+		];
 	}
 
 }

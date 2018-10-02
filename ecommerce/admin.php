@@ -4,7 +4,7 @@ use Hcode\Model\User;
 use Hcode\PageAdmin;
 
 $app->get('/admin', function() {
-    
+
 	User::verifyLogin();
 
 	$page = new PageAdmin();

@@ -29,6 +29,7 @@ class User extends Model {
 
 	public static function checkLogin($inadmin = true)
 	{
+		
 		if (
 			!isset($_SESSION[User::SESSION])
 			|| 
@@ -42,7 +43,7 @@ class User extends Model {
 
 		} else {
 
-			if ($inadmin === true && $_SESSION[User::SESSION]["iduser"] === true) {
+			if ($inadmin === true && $_SESSION[User::SESSION]["inadmin"] === "1") {
 
 				return true;
 
@@ -59,7 +60,7 @@ class User extends Model {
 		}
 	}
 
-	public static function login($login, $password):User
+	public static function login($login, $password) : User
 	{
 
 		$db = new Sql();
